@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Komputer Store</title>
-    <script src="index.js"></script>
+    <script src="index.js" defer></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,20 +15,20 @@
 
     <div id="balance-box" class="box">
         <h2 id="balance-name">Chris Giannikis</h2>
-        <span>Balance: </span>
-        <span id="balance"></span>
+        <span id="balance">Balance: </span>
         <i id="balance-amount">200</i>
-        <i id="currency">$</i>
+        <br>
+        <br>
+        <span id="loan">Loan: </span>
+        <i id="loan-amount">000</i>
         <br>
         <button class="button" id="get-loan-btn">Get a loan</button>
     </div>
 
     <div id="payment-box" class="box">
         <h2 id="payment-title">Work</h2>
-        <span>Pay: </span>
-        <span id="pay"></span>
+        <span id="pay">Pay: </span>
         <i id="pay-amount">0</i>
-        <i id="currency">$</i>
         <br>
         <button class="button" id="bank-btn">Bank</button>
         <button class="button" id="work-btn">Work</button>
@@ -52,7 +52,6 @@
         </div>
         <div class="price-buy">
             <i id="price">000</i>
-            <i id="currency">$</i>
             <br>
             <button class="button" id="buy-btn">Buy Now !</button>
         </div>
