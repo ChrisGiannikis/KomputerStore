@@ -105,3 +105,38 @@ repayButton.addEventListener('click', function(){  //when the repay button click
         }
     }
 })
+
+//3. Laptops
+const API_URL = "https://hickory-quilled-actress.glitch.me/computers";
+fetch(API_URL)
+    .then(response => {
+        console.log(response);
+       return response.json(); 
+    })
+    .then(json => {
+        renderData(json);
+    })
+
+function renderData(data){
+    let titlesArray = [data.length]; //making an array to keep the titles of the laptops
+    let descriptionsArray = [data.length]; //making an array to keep the descriptions of the laptops
+    for (let i=0; i < data.length; i++){ // for loop in datas size
+        titlesArray[i] = data[i].title;  //put at current place of the array the title of laptop with current id 
+        descriptionsArray[i] = data[i].description; //put at current place of the array the description of laptop with current id
+    }
+    console.log(titlesArray);
+    console.log(descriptionsArray);
+
+    const selectLaptopsElement = document.getElementById("laptops"); //making a DOM for select element
+
+    for (let i=0; i < titlesArray.length; i++){
+    const option = document.createElement('option');  //creating new option element
+    const optionText = document.createTextNode(titlesArray[i]); //creating new text node for option element
+    option.appendChild(optionText);  //adding option text
+    option.setAttribute('value', i);  //setting value attribute
+    selectLaptopsElement.appendChild(option); //adding the element into the select list
+    }
+
+
+    
+}
