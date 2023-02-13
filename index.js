@@ -25,8 +25,10 @@ let currentLoan = false;  //this is a value that holds if the customer has a loa
 balanceAmountElement.innerText = euro.format(currentBankDeposit); //converting the current bank deposit into an amount in euro currency
 getLoanButton.addEventListener('click', function(){ //when the get a loan button clicked
 
-    currentLoanMount = parseFloat(loanAmountElement.textContent.slice(1)); //taking the text value, removes the first character (euro currency) and then formmats the text into float number
-    currentBankDeposit = parseFloat(balanceAmountElement.textContent.slice(1)); //taking the current bank deposit
+    currentLoanMount = loanAmountElement.textContent.slice(1); // //taking the text value, removes the first character (euro currency)
+    currentLoanMount = convertTextIntoNumber(currentLoanMount); //converting the text value into a number 
+    currentBankDeposit = balanceAmountElement.textContent.slice(1); //taking the current bank deposit
+    currentBankDeposit = convertTextIntoNumber(currentBankDeposit); //converting the text value into a number
     requestedLoanAmount = window.prompt("Please submit the loan amount!"); //makes a pop up prompt box in which user sumbimts the desired loan amount
     
     if(!requestedLoanAmount || isNaN(requestedLoanAmount)){ //checking for invalid input
@@ -53,9 +55,12 @@ let currentSalary = salaryAmountElement.textContent;  //taking the current salar
 salaryAmountElement.innerText = euro.format(currentSalary); //converting the salary amount into an amount with euro currency
 
 bankButton.addEventListener('click', function(){  //when the bank button clicked
-    currentSalary = parseFloat(salaryAmountElement.textContent.slice(1)); //taking the text value, removes the first character (euro currency) and then formmats the text into float number
-    currentBankDeposit = parseFloat(balanceAmountElement.textContent.slice(1)); //taking the current bank deposit
-    currentLoanMount = parseFloat(loanAmountElement.textContent.slice(1)); //taking the current loan amount;
+    currentSalary = salaryAmountElement.textContent.slice(1); //taking the text value, removes the first character (euro currency) and then formmats the text into float number
+    currentSalary = convertTextIntoNumber(currentSalary); //converting the text value into a number
+    currentBankDeposit = balanceAmountElement.textContent.slice(1); //taking the current bank deposit
+    currentBankDeposit = convertTextIntoNumber(currentBankDeposit); //converting the text value into a number
+    currentLoanMount = loanAmountElement.textContent.slice(1); //taking the current loan amount;
+    currentLoanMount = convertTextIntoNumber(currentLoanMount); //converting the text value into a number
 
     if (currentSalary != 0){
         if (currentLoan){ //if a loan is active
@@ -75,15 +80,19 @@ bankButton.addEventListener('click', function(){  //when the bank button clicked
 })
 
 workButton.addEventListener('click', function(){  //when the work button clicked
-    currentSalary = parseFloat(salaryAmountElement.textContent.slice(1)); //taking the text value, removes the first character (euro currency) and then formmats the text into float number
+    currentSalary = salaryAmountElement.textContent.slice(1); //taking the text value, removes the first character (euro currency) and then formmats the text into float number
+    currentSalary = convertTextIntoNumber(currentSalary); //converting the text value into a number
     let sumOfSalary = currentSalary + 100;  //adding 100 to the current salary
     salaryAmountElement.innerText = euro.format(sumOfSalary);  //formating the total amount into euro currency
 })
 
 repayButton.addEventListener('click', function(){  //when the repay button clicked
-    currentLoanMount = parseFloat(loanAmountElement.textContent.slice(1)); //taking the current loan amount;
-    currentSalary = parseFloat(salaryAmountElement.textContent.slice(1)); //taking the text value, removes the first character (euro currency) and then formmats the text into float number
-    currentBankDeposit = parseFloat(balanceAmountElement.textContent.slice(1)); //taking the current bank deposit
+    currentLoanMount = loanAmountElement.textContent.slice(1); //taking the current loan amount;
+    currentLoanMount = convertTextIntoNumber(currentLoanMount); //converting the text value into a number
+    currentSalary = salaryAmountElement.textContent.slice(1); //taking the text value, removes the first character (euro currency) and then formmats the text into float number
+    currentSalary = convertTextIntoNumber(currentSalary); //converting the text value into a number
+    currentBankDeposit = balanceAmountElement.textContent.slice(1); //taking the current bank deposit
+    currentBankDeposit = convertTextIntoNumber(currentBankDeposit); //converting the text value into a number
 
     if (currentSalary != 0){
         if (currentLoan){ //if a loan is active
@@ -120,14 +129,20 @@ fetch(API_URL)
 function renderData(data){
     let titlesArray = [data.length]; //making an array to keep the titles of the laptops
     let descriptionsArray = [data.length]; //making an array to keep the descriptions of the laptops
+    let featuresArray = [data.length];  //making an array to keep a list of features for each laptop
+    let imagesArray = [data.length];  //making an array to keep the image sources
+    let pricesArray = [data.length];  //making an array to keep the prices of the lapotps
+
     for (let i=0; i < data.length; i++){ // for loop in datas size
-        titlesArray[i] = data[i].title;  //put at current place of the array the title of laptop with current id 
-        descriptionsArray[i] = data[i].description; //put at current place of the array the description of laptop with current id
+        titlesArray[i] = data[i].title;  //put at current place of the array the title of the laptop with current id 
+        descriptionsArray[i] = data[i].description; //put at current place of the array the description of the laptop with current id
+        featuresArray[i] = data[i].specs;  //put at current place of the array a list with the specs of of the laptop with current id
+        imagesArray[i] = data[i].image;  //put at current place of the array an image source of the laptop with current id
+        pricesArray[i] = data[i].price; //put at current place of the array the price of the laptop with current id
     }
-    console.log(titlesArray);
-    console.log(descriptionsArray);
 
     const selectLaptopsElement = document.getElementById("laptops"); //making a DOM for select element
+    const buyButtonElement = document.getElementById("buy-btn"); //making a DOM for buy now button;
 
     for (let i=0; i < titlesArray.length; i++){
     const option = document.createElement('option');  //creating new option element
@@ -137,6 +152,91 @@ function renderData(data){
     selectLaptopsElement.appendChild(option); //adding the element into the select list
     }
 
+    populateTheList(featuresArray[0]);  //populating the list with the specs of the first laptop
+    putImage(imagesArray[0]); //putting the image of the first laptop
+    putDetails(descriptionsArray[0]);  //put the details of the first laptop
+    putTittle(titlesArray[0]); //put the tittle of the first laptop
+    putPrice(euro.format(pricesArray[0]));  //put the price of the first laptop
 
+    selectLaptopsElement.addEventListener('change', (event) =>{  //on click of the select
+        clearUpTheList();  //clear up the list
+        populateTheList(featuresArray[event.target.value]);  //populate the list with the selected laptop features
+        putImage(imagesArray[event.target.value]);  //put the image of the selected laptop
+        putDetails(descriptionsArray[event.target.value]);  //put the details of the selected laptop
+        putTittle(titlesArray[event.target.value]); //put the tittle of the selected laptop
+        putPrice(euro.format(pricesArray[event.target.value])); //put the price of the selected laptop
+    })
+
+    buyButtonElement.addEventListener('click', function(){  //when the buy now button clicked
+        const laptopPriceElement = document.getElementById("price");  //making a DOM for laptop price element
+        let price = laptopPriceElement.textContent.slice(1); //taking the price of the current laptop
+        console.log(price);
+        checkToBuy(price);  //calling the function to check if i can buy the laptop
+    })
+  
+}
+
+function populateTheList(array){
+    const listElement = document.getElementById("laptop-features-list");  //making a DOM for features list
+
+    for (let feature of array){  //for each element in list of features of the given laptop
+        const listItem = document.createElement('li');  //creating a list element
+        listItem.innerText = feature;  //for each list item put the  element 
+        listElement.appendChild(listItem);  //adding the item at the list
+    }
+}
+
+function clearUpTheList(){
+    const listElement = document.getElementById("laptop-features-list");  //making a DOM for features list
     
+    for(let i=0; i < listElement.childElementCount; i++){  //for loop in the size of the list 
+        
+        let child = listElement.lastElementChild;  //gets the last schild element of the list
+
+        while(child){
+            listElement.removeChild(child);  //removing the last child of the list
+            child = listElement.lastElementChild; //getting the last schild element of the list
+        }
+    }
+}
+
+function putImage(imageUrl){
+    const imageElement = document.getElementById("image");  //making a DOM for the image element
+    imageElement.src = "https://hickory-quilled-actress.glitch.me/" + imageUrl;  //changing the image source
+}
+
+function putDetails(details){
+    const detailsElement = document.getElementById("laptop-details"); //making a DOM for the details section element
+    detailsElement.innerText = details;
+}
+
+function putTittle(title){
+    const laptopTittleElement = document.getElementById("laptop-name");  //making a DOM for laptop tittle element
+    laptopTittleElement.innerText = title;
+}
+
+function putPrice(price){
+    const laptopPriceElement = document.getElementById("price");  //making a DOM for laptop price element
+    laptopPriceElement.innerText = price;
+}
+
+function checkToBuy(price){
+    const balanceAmountElement = document.getElementById("balance-amount"); //making a DOM for balance amount
+    let deposit = balanceAmountElement.textContent.slice(1); //taking the current bank deposit
+    deposit = convertTextIntoNumber(deposit); //converting the text value into a number
+    let priceNumber = convertTextIntoNumber(price); //converting the text value into a number
+
+    if (deposit < priceNumber){  //if there are not enough money in the “Bank”
+        window.alert("Your current bank balance is not sufficient for this purchase."); //show an alert window
+    }else{ //if the money in the bank are sufficient
+        balanceAmountElement.innerText = euro.format(deposit - priceNumber); //update the new balance
+        window.alert("Purchase succesfull! \n You are now the owner of the new laptop!"); //shows an alert window with succes message
+    }
+}
+
+function convertTextIntoNumber(text){
+    let number = text.split(".");  //splitting with "." to get out the ".00"
+    number = number[0].split(","); // splitting with "." to get out the ","
+    number = parseInt( number[0] + number[1]); //finally appends the strings to create the number
+    return number
 }
