@@ -1,7 +1,7 @@
 import { takeLoan } from "./bank.js"; //imports takeLoan function from bank.js
-import convertTextIntoNumber from "./convertTextIntoNumber.js";
-import { checkToBuy, clearUpTheList, populateTheList, putDetails, putImage, putPrice, putTittle } from "./laptops.js";
-import { payMyWork, repayTheLoan, saveMyMoney } from "./work.js";
+import convertTextIntoNumber from "./convertTextIntoNumber.js"; //imports function from convertTextIntoNumber.js 
+import { checkToBuy, clearUpTheList, populateTheList, putDetails, putImage, putPrice, putTittle } from "./laptops.js";  //imports functions from laptops.js
+import { payMyWork, repayTheLoan, saveMyMoney } from "./work.js"; ////imports functions from work.js
 
 //format a number into euro currency
 let euro = Intl.NumberFormat('en-DE', {
@@ -42,12 +42,11 @@ salaryAmountElement.innerText = euro.format(currentSalary); //converting the sal
 bankButton.addEventListener('click', function(){  //when the bank button clicked
     let currentLoanMount = loanAmountElement.textContent.slice(1); //taking the current loan amount;
     currentLoanMount = convertTextIntoNumber(currentLoanMount); //converting the text value into a number
-    if(currentLoanMount > 0){
-        activeLoan = true;
+    if(currentLoanMount > 0){  //checking if loan amount is bigger than zero
+        activeLoan = true; //sets active loan flag true
     }else{
-        activeLoan = false;
+        activeLoan = false; //sets active loan flag false
     }
-    console.log(activeLoan);
     saveMyMoney(salaryAmountElement, balanceAmountElement, loanAmountElement, activeLoan, euro); //calling this function from work.js to save the salary into bank deposit
 })
 
@@ -59,22 +58,23 @@ repayButton.addEventListener('click', function(){  //when the repay button click
 
     let currentLoanMount = loanAmountElement.textContent.slice(1); //taking the current loan amount;
     currentLoanMount = convertTextIntoNumber(currentLoanMount); //converting the text value into a number
-    if(currentLoanMount > 0){
-        activeLoan = true;
-    } 
+    if(currentLoanMount > 0){ //checking if loan amount is bigger than zero
+        activeLoan = true;  //sets active loan flag true
+    }else{
+        activeLoan = false; //sets active loan flag false
+    }
     //calling this function from work.js to pay the loan with the current cash from work
     repayTheLoan(loanAmountElement, salaryAmountElement, loanTitleElement, repayButton, balanceAmountElement, activeLoan, euro);
 })
 
 //3. Laptops
-const API_URL = "https://hickory-quilled-actress.glitch.me/computers";
-fetch(API_URL)
+const API_URL = "https://hickory-quilled-actress.glitch.me/computers"; //url of the API
+fetch(API_URL) 
     .then(response => {
-        console.log(response);
-       return response.json(); 
+       return response.json(); //returning the response of the api in json format
     })
     .then(json => {
-        renderData(json);
+        renderData(json); //calling the renderData function with the json data
     })
 
 function renderData(data){
