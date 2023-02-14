@@ -76,6 +76,7 @@ fetch(API_URL)
     .then(json => {
         renderData(json); //calling the renderData function with the json data
     })
+    .catch((err) => (console.error(err)))
 
 function renderData(data){
     let titlesArray = [data.length]; //making an array to keep the titles of the laptops
