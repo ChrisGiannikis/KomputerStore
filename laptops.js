@@ -31,17 +31,17 @@ export function putImage(imageUrl){
 
 export function putDetails(details){
     const detailsElement = document.getElementById("laptop-details"); //making a DOM for the details section element
-    detailsElement.innerText = details;
+    detailsElement.innerText = details; //setting the details text into laptop details element 
 }
 
 export function putTittle(title){
     const laptopTittleElement = document.getElementById("laptop-name");  //making a DOM for laptop tittle element
-    laptopTittleElement.innerText = title;
+    laptopTittleElement.innerText = title; //setting the title into laptop tittle element
 }
 
 export function putPrice(price){
     const laptopPriceElement = document.getElementById("price");  //making a DOM for laptop price element
-    laptopPriceElement.innerText = price;
+    laptopPriceElement.innerText = price; //setting the price at laptop price element
 }
 
 export function checkToBuy(price, euro){
