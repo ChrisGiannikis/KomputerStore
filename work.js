@@ -3,13 +3,10 @@ import convertTextIntoNumber from "./convertTextIntoNumber.js";
 export function saveMyMoney(salaryAmountElement, balanceAmountElement, loanAmountElement, currentLoan, euro){
     let currentSalary = salaryAmountElement.textContent.slice(1); //taking the text value, removes the first character (euro currency) and then formmats the text into float number
     currentSalary = convertTextIntoNumber(currentSalary); //converting the text value into a number
-    console.log(currentSalary);
     let currentBankDeposit = balanceAmountElement.textContent.slice(1); //taking the current bank deposit
     currentBankDeposit = convertTextIntoNumber(currentBankDeposit); //converting the text value into a number
-    console.log(currentBankDeposit);
     let currentLoanMount = loanAmountElement.textContent.slice(1); //taking the current loan amount;
     currentLoanMount = convertTextIntoNumber(currentLoanMount); //converting the text value into a number
-    console.log(currentLoanMount);
 
     if (currentSalary != 0){
         if (currentLoan){ //if a loan is active
@@ -59,7 +56,7 @@ export function repayTheLoan(loanAmountElement, salaryAmountElement, loanTitleEl
                 balanceAmountElement.innerText = euro.format(sumOfBalance); // sets the total balance with euro currency into html element
             }
         }else{
-            window.alert("There is no loan to pay off !")
+            window.alert("There is no loan to pay off !")  //making a pop up message
         }
     }
 }
